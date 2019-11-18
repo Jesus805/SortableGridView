@@ -1,0 +1,40 @@
+﻿<Window x:Class="SortableGridViewExample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:sgv="clr-namespace:CoderJesus.SortableGridView;assembly=CoderJesus.SortableGridView"
+        Title="SortableGridView Example" Height="450" Width="800">
+    <ListView ItemsSource="{Binding SampleCollection}">
+        <ListView.View>
+            <GridView>
+                <GridView.Columns>
+                    <GridViewColumn>
+                        <sgv:SortableGridViewColumnHeader SortPropertyName="Name">
+                            <TextBlock Text="Name"/>
+                        </sgv:SortableGridViewColumnHeader>
+
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn>
+                        <sgv:SortableGridViewColumnHeader SortPropertyName="Value">
+                            <TextBlock Text="Value"/>
+                        </sgv:SortableGridViewColumnHeader>
+
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Value}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView.Columns>
+            </GridView>
+        </ListView.View>
+    </ListView>
+</Window>
