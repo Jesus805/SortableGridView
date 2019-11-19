@@ -3,8 +3,7 @@
                     xmlns:local="clr-namespace:CoderJesus.SortableGridView"
                     xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
     <Style x:Key="{x:Type local:SortableGridViewColumnHeader}" 
-           TargetType="local:SortableGridViewColumnHeader">
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
+           TargetType="{x:Type local:SortableGridViewColumnHeader}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="TextBlock.FontWeight" Value="Medium" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -12,39 +11,24 @@
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignColumnHeader}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:SortableGridViewColumnHeader">
-                    <ControlTemplate.Resources>
-                        <Storyboard x:Key="GoToVisible">
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SortDirectionIndicator" Storyboard.TargetProperty="Width">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="12" />
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard>
-                        <Storyboard x:Key="GoToHidden">
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SortDirectionIndicator" Storyboard.TargetProperty="Width">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="12" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </ControlTemplate.Resources>
+                <ControlTemplate TargetType="{x:Type local:SortableGridViewColumnHeader}">
                     <DockPanel>
                         <Thumb x:Name="PART_HeaderGripper"
                                DockPanel.Dock="Right"
                                Margin="0,0,-8,0"
-                               Cursor="SizeWE"
                                Style="{StaticResource MaterialDesignGridColumnHeaderGripper}"/>
 
                         <Border x:Name="HeaderBorder"
-                                Padding="{TemplateBinding Padding}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
                             <Grid Background="Transparent">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <materialDesign:ListSortDirectionIndicator Width="0" Height="12"
+                                <materialDesign:ListSortDirectionIndicator Grid.Column="0"
+                                                                           Width="12" Height="12"
                                                                            x:Name="SortDirectionIndicator"
-                                                                           Margin="0,0,0,0"
                                                                            ListSortDirection="{TemplateBinding SortDirection}"/>
                                 <ContentPresenter Grid.Column="1"
                                                   x:Name="HeaderContent"
@@ -65,15 +49,6 @@
                         </Trigger>
                         <Trigger Property="SortDirection" Value="Descending">
                             <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-                        </Trigger>
-                        <Trigger SourceName="SortDirectionIndicator" Property="IsNeutral" Value="False">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard Storyboard="{StaticResource GoToVisible}" Name="GoToVisible" />
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <RemoveStoryboard BeginStoryboardName="GoToVisible" />
-                                <BeginStoryboard Storyboard="{StaticResource GoToHidden}" />
-                            </Trigger.ExitActions>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -97,7 +72,7 @@
                 <Setter Property="Opacity" Value="0.7" />
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="local:SortableGridViewColumnHeader">
+                        <ControlTemplate TargetType="{x:Type local:SortableGridViewColumnHeader}">
                             <Canvas Name="PART_FloatingHeaderCanvas" />
                         </ControlTemplate>
                     </Setter.Value>
