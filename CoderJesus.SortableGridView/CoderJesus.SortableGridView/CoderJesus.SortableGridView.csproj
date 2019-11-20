@@ -79,7 +79,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\Coderjesus.SortableGridViewColumnHeader.xaml">
+    <Page Include="Themes\CoderJesus.SortableGridViewColumnHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

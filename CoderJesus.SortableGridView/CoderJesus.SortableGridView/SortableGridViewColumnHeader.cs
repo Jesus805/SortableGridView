@@ -52,7 +52,7 @@ namespace CoderJesus.SortableGridView
         /// <summary>
         /// Create a new Instance of SortableGridViewColumnHeader.
         /// </summary>
-        public SortableGridViewColumnHeader()
+        public SortableGridViewColumnHeader() : base()
         {
             AddHandler(ClickEvent, new RoutedEventHandler(SortableGridViewColumnHeader_Click));
         }

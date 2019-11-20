@@ -2,8 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CoderJesus.SortableGridView"
                     xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
-    <Style x:Key="{x:Type local:SortableGridViewColumnHeader}" 
-           TargetType="{x:Type local:SortableGridViewColumnHeader}">
+
+    <Style x:Key="{x:Type local:SortableGridViewColumnHeader}"
+           TargetType="local:SortableGridViewColumnHeader">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="TextBlock.FontWeight" Value="Medium" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -11,7 +13,7 @@
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignColumnHeader}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:SortableGridViewColumnHeader}">
+                <ControlTemplate TargetType="local:SortableGridViewColumnHeader">
                     <DockPanel>
                         <Thumb x:Name="PART_HeaderGripper"
                                DockPanel.Dock="Right"
@@ -19,8 +21,8 @@
                                Style="{StaticResource MaterialDesignGridColumnHeaderGripper}"/>
 
                         <Border x:Name="HeaderBorder"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Padding="{TemplateBinding Padding}">
+                                Padding="{TemplateBinding Padding}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid Background="Transparent">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -59,7 +61,7 @@
                 <Setter Property="Opacity" Value="0.7" />
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="GridViewColumnHeader">
+                        <ControlTemplate TargetType="local:SortableGridViewColumnHeader">
                             <DockPanel Name="PART_FloatingHeaderCanvas">
                                 <Border BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="1" />
                             </DockPanel>
@@ -67,12 +69,11 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
-
             <Trigger Property="Role" Value="Padding">
                 <Setter Property="Opacity" Value="0.7" />
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type local:SortableGridViewColumnHeader}">
+                        <ControlTemplate TargetType="local:SortableGridViewColumnHeader">
                             <Canvas Name="PART_FloatingHeaderCanvas" />
                         </ControlTemplate>
                     </Setter.Value>

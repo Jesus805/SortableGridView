@@ -11,9 +11,11 @@
             <GridView>
                 <GridView.Columns>
                     <GridViewColumn>
-                        <sgv:SortableGridViewColumnHeader SortPropertyName="Name">
-                            <TextBlock Text="Name"/>
-                        </sgv:SortableGridViewColumnHeader>
+                        <GridViewColumn.Header>
+                            <sgv:SortableGridViewColumnHeader SortPropertyName="Name">
+                                <TextBlock Text="Name"/>
+                            </sgv:SortableGridViewColumnHeader>
+                        </GridViewColumn.Header>
 
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -23,9 +25,11 @@
                     </GridViewColumn>
 
                     <GridViewColumn>
-                        <sgv:SortableGridViewColumnHeader SortPropertyName="Value">
-                            <TextBlock Text="Value"/>
-                        </sgv:SortableGridViewColumnHeader>
+                        <GridViewColumn.Header>
+                            <sgv:SortableGridViewColumnHeader SortPropertyName="Value">
+                                <TextBlock Text="Value"/>
+                            </sgv:SortableGridViewColumnHeader>
+                        </GridViewColumn.Header>
 
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
