@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -13,6 +14,8 @@ namespace CoderJesus.SortableGridView
     /// </summary>
     public class SortableGridViewColumnHeader : GridViewColumnHeader
     {
+        #region Dependency Properties
+
         /// <summary>
         /// The column sort direction, this property is read-only.
         /// </summary>
@@ -48,6 +51,7 @@ namespace CoderJesus.SortableGridView
                                         typeof(string),
                                         typeof(SortableGridViewColumnHeader),
                                         new PropertyMetadata(null));
+        #endregion
 
         /// <summary>
         /// Create a new Instance of SortableGridViewColumnHeader.
@@ -72,53 +76,16 @@ namespace CoderJesus.SortableGridView
         }
 
         /// <summary>
-        /// Update SortDirection based on the addition or removal its SortDescription.
+        /// Attach MouseLeftButton Event Handler to Thumb.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        public override void OnApplyTemplate()
         {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (SortDescription description in e.NewItems)
-                    {
-                        if (description.PropertyName == SortPropertyName)
-                        {
-                            SortDirection = description.Direction;
-                        }
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (SortDescription description in e.OldItems)
-                    {
-                        if (description.PropertyName == SortPropertyName)
-                        {
-                            SortDirection = null;
-                        }
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    SortDirection = null;
-                    break;
-            }
-        }
+            base.OnApplyTemplate();
 
-        /// <summary>
-        /// Sort the collection when the ColumnViewHeader is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SortableGridViewColumnHeader_Click(object sender, RoutedEventArgs e)
-        {
-            if (GetAncestor<ListView>(this) is ListView listView &&
-                !string.IsNullOrWhiteSpace(SortPropertyName))
+            foreach (Thumb thumb in FindVisualChildren<Thumb>(this))
             {
-                // Enable multi-sorting if Shift + Click
-                bool append = Keyboard.Modifiers == ModifierKeys.Shift;
-                Sort(listView.Items, append);
+                thumb.AddHandler(MouseLeftButtonDownEvent, new RoutedEventHandler(Thumb_DragStarted), true);
+                thumb.AddHandler(MouseLeftButtonUpEvent, new RoutedEventHandler(Thumb_DragCompleted), true);
             }
         }
 
@@ -172,6 +139,83 @@ namespace CoderJesus.SortableGridView
             }
         }
 
+        #region Events
+
+        /// <summary>
+        /// Update SortDirection based on the addition or removal its SortDescription.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (SortDescription description in e.NewItems)
+                    {
+                        if (description.PropertyName == SortPropertyName)
+                        {
+                            SortDirection = description.Direction;
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (SortDescription description in e.OldItems)
+                    {
+                        if (description.PropertyName == SortPropertyName)
+                        {
+                            SortDirection = null;
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    SortDirection = null;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Sort the collection when the ColumnViewHeader is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortableGridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            if (GetAncestor<ListView>(this) is ListView listView &&
+                !string.IsNullOrWhiteSpace(SortPropertyName))
+            {
+                // Enable multi-sorting if Shift + Click
+                bool append = Keyboard.Modifiers == ModifierKeys.Shift;
+                Sort(listView.Items, append);
+            }
+        }
+
+        /// <summary>
+        /// Force SideWE Cursor when the thumb is dragging.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Thumb_DragStarted(object sender, RoutedEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.SizeWE;
+        }
+
+        /// <summary>
+        /// Remove forced SizeWE Cursor when thumb dragging complete.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Thumb_DragCompleted(object sender, RoutedEventArgs e)
+        {
+            Mouse.OverrideCursor = null;
+        }
+
+        #endregion
+
+        #region Static Methods
+
         private static T GetAncestor<T>(DependencyObject obj) where T : DependencyObject
         {
             if (obj == null)
@@ -188,5 +232,26 @@ namespace CoderJesus.SortableGridView
 
             return (T)parent ?? null;
         }
+
+        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        {
+            int children = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < children; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is T)
+                {
+                    yield return (T)child;
+                }
+
+                foreach (var c in FindVisualChildren<T>(child))
+                {
+                    yield return c;
+                }
+            }
+        }
+
+        #endregion
     }
 }
