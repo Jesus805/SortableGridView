@@ -16,27 +16,26 @@
                                 <TextBlock Text="Name"/>
                             </sgv:SortableGridViewColumnHeader>
                         </GridViewColumn.Header>
-
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
+                    
                     <GridViewColumn>
                         <GridViewColumn.Header>
                             <sgv:SortableGridViewColumnHeader SortPropertyName="Value">
                                 <TextBlock Text="Value"/>
                             </sgv:SortableGridViewColumnHeader>
                         </GridViewColumn.Header>
-
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Value}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+
                 </GridView.Columns>
             </GridView>
         </ListView.View>

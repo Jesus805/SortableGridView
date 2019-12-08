@@ -3,23 +3,6 @@
                     xmlns:local="clr-namespace:CoderJesus.SortableGridView"
                     xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
 
-    <Style x:Key="GridColumnHeaderGripper"
-           TargetType="{x:Type Thumb}" 
-           BasedOn="{StaticResource MaterialDesignThumb}">
-        <Setter Property="Width" Value="8"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border x:Name="PART_Border"
-                            Cursor="SizeWE"
-                            Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="{x:Type local:SortableGridViewColumnHeader}"
            TargetType="local:SortableGridViewColumnHeader">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -35,7 +18,7 @@
                         <Thumb x:Name="PART_HeaderGripper"
                                DockPanel.Dock="Right"
                                Margin="0,0,-8,0"
-                               Style="{StaticResource GridColumnHeaderGripper}"/>
+                               Style="{StaticResource MaterialDesignGridViewColumnHeaderGripper}"/>
 
                         <Border x:Name="HeaderBorder"
                                 Padding="{TemplateBinding Padding}"
